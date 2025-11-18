@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
 import kotlin.math.sin
 
@@ -203,4 +204,28 @@ fun BatteryVisualization(isPlaying: Boolean) {
             )
         }
     }
+}
+
+@Preview(
+    name = "Battery - Playing Preview",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+    widthDp = 400,
+    heightDp = 800,
+)
+@Composable
+fun BatteryVisualizationPlayingPreview() {
+    BatteryVisualization(isPlaying = true)
+}
+
+@Preview(
+    name = "Battery - Stopped Preview",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+    widthDp = 400,
+    heightDp = 800,
+)
+@Composable
+fun BatteryVisualizationStoppedPreview() {
+    BatteryVisualization(isPlaying = false)
 }
