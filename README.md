@@ -42,8 +42,6 @@ Each visualization runs independently and updates in real time using `withFrameN
 - Dynamic background shifts
 - Ambient motion
 
----
-
 ## 📱 Fullscreen Mode
 
 Double-tap any visualizer to:
@@ -59,17 +57,16 @@ animateColorAsState()
 animateDpAsState()
 ```
 
-⸻
+
 
 🧩 Tech Stack
-  • Jetpack Compose
-  • Material 3
-  • Compose Animations
-  • Edge-to-Edge layout
-  • Kotlin Coroutines
-  • pointerInput gesture detection
+- Jetpack Compose
+- Material 3
+- Compose Animations
+- Edge-to-Edge layout
+- Kotlin Coroutines
+- pointerInput gesture detection
 
-⸻
 
 📦 Setup
 
@@ -79,31 +76,27 @@ git clone https://github.com/jacksonmafra-umain/Visualizations
 
 Open it in Android Studio and run on a device or emulator.
 
-⸻
 
 🖼 Preview
 
 The UI follows a square aspect ratio display area (like old WMP) and includes:
-  • Visualizer switcher button
-  • Playlist drawer
-  • Gradient top/bottom bars
-  • Glow, blur, and trailing motion effects
+- Visualizer switcher button
+- Playlist drawer
+- Gradient top/bottom bars
+- Glow, blur, and trailing motion effects
 
-⸻
 
 🧪 Roadmap
-  • Add audio-reactive mode (FFT)
-  • More visualizers (Particles, Orbs, Electric Lines)
-  • True WMP skin support
-  • Desktop Compose version
-  • Live wallpaper export
+- Add audio-reactive mode (FFT)
+- More visualizers (Particles, Orbs, Electric Lines)
+- True WMP skin support
+- Desktop Compose version
+- Live wallpaper export
 
-⸻
 
 📜 License
 
 MIT License. You can use or modify it freely.
 
-⸻
 
 Enjoy the nostalgia. 🎵🔥
