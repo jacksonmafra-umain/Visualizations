@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
 import kotlin.math.PI
 import kotlin.math.abs
@@ -196,4 +197,28 @@ fun MusicalColorsVisualization(isPlaying: Boolean) {
             )
         }
     }
+}
+
+@Preview(
+    name = " MusicalColors - Playing Preview",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+    widthDp = 400,
+    heightDp = 800,
+)
+@Composable
+fun MusicalColorsVisualizationPlayingPreview() {
+    MusicalColorsVisualization(isPlaying = true)
+}
+
+@Preview(
+    name = " MusicalColors - Stopped Preview",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+    widthDp = 400,
+    heightDp = 800,
+)
+@Composable
+fun MusicalColorsVisualizationStoppedPreview() {
+    MusicalColorsVisualization(isPlaying = false)
 }
