@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
 import kotlin.math.PI
 import kotlin.math.cos
@@ -157,4 +158,28 @@ fun hslToColor(
         blue = (b + m),
         alpha = alpha,
     )
+}
+
+@Preview(
+    name = "Alchemy - Playing Preview",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+    widthDp = 400,
+    heightDp = 800,
+)
+@Composable
+fun AlchemyVisualizationPlayingPreview() {
+    AlchemyVisualization(isPlaying = true)
+}
+
+@Preview(
+    name = "Alchemy - Stopped Preview",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+    widthDp = 400,
+    heightDp = 800,
+)
+@Composable
+fun AlchemyVisualizationStoppedPreview() {
+    AlchemyVisualization(isPlaying = false)
 }
