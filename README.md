@@ -3,7 +3,9 @@
 This project is a modern take on the classic Windows Media Player experience, rebuilt with **Jetpack Compose**.  
 It includes multiple animated visualizers, a retro-inspired media player UI, and smooth fullscreen transitions.
 
----
+
+![Windows Media Player Visualizer](demo.gif)
+
 
 ## ✨ Features
 
