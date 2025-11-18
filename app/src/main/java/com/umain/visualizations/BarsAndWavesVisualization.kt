@@ -136,7 +136,6 @@ fun BarsAndWavesVisualization(isPlaying: Boolean) {
     }
 }
 
-
 @Preview(
     name = "BarsAndWaves - Playing Preview",
     showBackground = true,
