@@ -1,13 +1,16 @@
 package com.umain.visualizations
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,6 +49,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -80,6 +85,23 @@ fun MediaPlayerScreen() {
     var currentViz by remember { mutableStateOf(0) }
 
     val visualizations = listOf("Bars and Waves", "Alchemy", "Battery", "Musical Colors")
+
+    var isFullscreen by remember { mutableStateOf(false) }
+
+    val heightAnim by animateFloatAsState(
+        targetValue = if (isFullscreen) 1f else 0.5f,
+        animationSpec = tween(400),
+    )
+
+    val scaleAnim by animateFloatAsState(
+        targetValue = if (isFullscreen) 1.05f else 1f,
+        animationSpec = tween(400),
+    )
+
+    val bgFade by animateColorAsState(
+        targetValue = if (isFullscreen) Color.Black else Color(0xFF111111),
+        animationSpec = tween(400),
+    )
 
     LaunchedEffect(isPlaying, currentTrack) {
         if (isPlaying) {
@@ -123,39 +145,41 @@ fun MediaPlayerScreen() {
                                 ),
                         ).padding(16.dp),
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier =
-                                Modifier
-                                    .size(24.dp)
-                                    .background(Color(0xFF60a5fa), RoundedCornerShape(4.dp)),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.MusicNote,
-                                contentDescription = null,
-                                tint = Color(0xFF1e40af),
-                                modifier = Modifier.size(16.dp),
+                if (!isFullscreen) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier =
+                                    Modifier
+                                        .size(24.dp)
+                                        .background(Color(0xFF60a5fa), RoundedCornerShape(4.dp)),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.MusicNote,
+                                    contentDescription = null,
+                                    tint = Color(0xFF1e40af),
+                                    modifier = Modifier.size(16.dp),
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Windows Media Player",
+                                color = Color.White,
+                                fontSize = 14.sp,
                             )
                         }
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Windows Media Player",
-                            color = Color.White,
-                            fontSize = 14.sp,
-                        )
-                    }
-                    IconButton(onClick = { showPlaylist = !showPlaylist }) {
-                        Icon(
-                            imageVector = Icons.Default.List,
-                            contentDescription = "Playlist",
-                            tint = Color.White,
-                        )
+                        IconButton(onClick = { showPlaylist = !showPlaylist }) {
+                            Icon(
+                                imageVector = Icons.Default.List,
+                                contentDescription = "Playlist",
+                                tint = Color.White,
+                            )
+                        }
                     }
                 }
             }
@@ -177,8 +201,18 @@ fun MediaPlayerScreen() {
                         modifier =
                             Modifier
                                 .fillMaxWidth()
-                                .aspectRatio(1f)
-                                .background(Color.Black),
+                                .fillMaxHeight(heightAnim)
+                                .graphicsLayer {
+                                    scaleX = scaleAnim
+                                    scaleY = scaleAnim
+                                }.background(bgFade)
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onDoubleTap = {
+                                            isFullscreen = !isFullscreen
+                                        },
+                                    )
+                                },
                     ) {
                         when (currentViz) {
                             0 -> BarsAndWavesVisualization(isPlaying = isPlaying)
@@ -187,23 +221,25 @@ fun MediaPlayerScreen() {
                             3 -> MusicalColorsVisualization(isPlaying = isPlaying)
                         }
 
-                        Button(
-                            onClick = { currentViz = (currentViz + 1) % visualizations.size },
-                            modifier =
-                                Modifier
-                                    .align(Alignment.TopEnd)
-                                    .padding(8.dp),
-                            colors =
-                                ButtonDefaults.buttonColors(
-                                    containerColor = Color.Black.copy(alpha = 0.5f),
-                                ),
-                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-                        ) {
-                            Text(
-                                text = visualizations[currentViz],
-                                fontSize = 10.sp,
-                                color = Color.White,
-                            )
+                        if (!isFullscreen) {
+                            Button(
+                                onClick = { currentViz = (currentViz + 1) % visualizations.size },
+                                modifier =
+                                    Modifier
+                                        .align(Alignment.TopEnd)
+                                        .padding(8.dp),
+                                colors =
+                                    ButtonDefaults.buttonColors(
+                                        containerColor = Color.Black.copy(alpha = 0.5f),
+                                    ),
+                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
+                            ) {
+                                Text(
+                                    text = visualizations[currentViz],
+                                    fontSize = 10.sp,
+                                    color = Color.White,
+                                )
+                            }
                         }
                     }
 
@@ -413,7 +449,7 @@ fun MediaPlayerScreen() {
     showBackground = true,
     backgroundColor = 0xFF000000,
     widthDp = 400,
-    heightDp = 800
+    heightDp = 800,
 )
 @Composable
 fun MediaPlayerScreenPreview() {
